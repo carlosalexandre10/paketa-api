@@ -1,10 +1,15 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
-export class CreateUsers1633472034017 implements MigrationInterface {
+export class CreateItem1642796868660 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: 'users',
+        name: 'itens',
         columns: [
           {
             name: 'id',
@@ -18,13 +23,9 @@ export class CreateUsers1633472034017 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'email',
-            type: 'varchar',
-            isUnique: true,
-          },
-          {
-            name: 'password',
-            type: 'varchar',
+            name: 'relatedId',
+            type: 'uuid',
+            isNullable: true,
           },
           {
             name: 'created_at',
@@ -39,9 +40,22 @@ export class CreateUsers1633472034017 implements MigrationInterface {
         ],
       }),
     );
+
+    await queryRunner.createForeignKey(
+      'itens',
+      new TableForeignKey({
+        name: 'ItensRelatedId',
+        columnNames: ['relatedId'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'itens',
+        onDelete: 'SET NULL',
+        onUpdate: 'CASCADE',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropTable('users');
+    await queryRunner.dropForeignKey('itens', 'ItensRelatedId');
+    await queryRunner.dropTable('itens');
   }
 }

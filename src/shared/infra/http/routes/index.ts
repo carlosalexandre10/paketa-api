@@ -1,9 +1,9 @@
 import { Router } from 'express';
 
-import userRouter from '@modules/users/infra/http/routes/user.routes';
+import itemRouter from '@modules/infra/http/routes/item.routes';
 
 const routes = Router();
 
-routes.use('/users', userRouter);
+routes.use('/api/v1/menu', itemRouter);
 
 export default routes;
