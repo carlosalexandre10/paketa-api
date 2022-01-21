@@ -1,6 +1,7 @@
 import 'reflect-metadata';
+import 'dotenv/config';
+
 import cors from 'cors';
-import dotenv from 'dotenv';
 import express, { Request, Response, NextFunction } from 'express';
 import 'express-async-errors';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -13,7 +14,6 @@ import routes from '@shared/infra/http/routes';
 import '@shared/infra/database';
 import '@shared/container';
 
-dotenv.config();
 const app = express();
 
 app.use(express.json());
